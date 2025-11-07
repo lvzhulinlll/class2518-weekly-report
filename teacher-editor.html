@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2518班级周报 - 教师编辑版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .editor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .editor-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .editor-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+        }
+        
+        .editor-header h3 {
+            font-size: 1.5rem;
+            color: #1e3c72;
+            margin-left: 1rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            color: #667eea;
+        }
+        
+        .editor-content {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .content-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .content-item h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-item p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .meta {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tags {
+            margin-top: 0.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .editor-form {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .share-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .share-section h2 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+        
+        .share-link {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+        }
+        
+        .copy-btn:hover {
+            background: #138496;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(300px);
+            transition: transform 0.3s;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        @media (max-width: 768px) {
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部区域 -->
+        <div class="header">
+            <h1>2518班级学术周报</h1>
+            <p>教师编辑版 - 一键编辑，即时分享</p>
+            <div class="welcome-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="notesCount">0</span>
+                    <span class="stat-label">篇心得分享</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="newsCount">0</span>
+                    <span class="stat-label">条法学动态</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="literatureCount">0</span>
+                    <span class="stat-label">本推荐文献</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑区域 -->
+        <div class="editor-grid">
+            <!-- 读后感编辑 -->
+            <div class="editor-card">
+                <div class="editor-header">
+                    <div class="icon">📚</div>
+                    <h3>读后感/观后感</h3>
+                </div>
+                <div class="editor-content" id="readingNotesContent">
+                    <!-- 内容将通过JavaScript动态生成 -->
+                </div>
+                <div class="editor-form">
+                    <div class="form-group">
+                        <label for="readingTitle">标题</label>
+                        <input type="text" id="readingTitle" class="form-control" placeholder="请输入标题">
+                    </div>
+                    <div class="form-group">
+                        <label for="readingAuthor">作者</label>
+                        <input type="text" id="readingAuthor" class="form-control" placeholder="请输入作者姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="readingContent">内容</label>
+                        <textarea id="readingContent" class="form-control" rows="3" placeholder="请分享阅读或观影心得..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="addReadingNote()">添加心得</button>
+                        <button class="btn btn-secondary" onclick="clearReadingForm()">清空</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 法学动态编辑 -->
+            <div class="editor-card">
+                <div class="editor-header">
+                    <div class="icon">📰</div>
+                    <h3>法学动态速递</h3>
+                </div>
+                <div class="editor-content" id="lawNewsContent">
+                    <!-- 内容将通过JavaScript动态生成 -->
+                </div>
+                <div class="editor-form">
+                    <div class="form-group">
+                        <label for="newsTitle">标题</label>
+                        <input type="text" id="newsTitle" class="form-control" placeholder="请输入新闻标题">
+                    </div>
+                    <div class="form-group">
+                        <label for="newsSource">来源</label>
+                        <input type="text" id="newsSource" class="form-control" placeholder="请输入新闻来源">
+                    </div>
+                    <div class="form-group">
+                        <label for="newsContent">内容</label>
+                        <textarea id="newsContent" class="form-control" rows="3" placeholder="请输入新闻内容..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="addLawNews()">添加动态</button>
+                        <button class="btn btn-secondary" onclick="clearNewsForm()">清空</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文献推荐编辑 -->
+            <div class="editor-card">
+                <div class="editor-header">
+                    <div class="icon">📖</div>
+                    <h3>文献推荐</h3>
+                </div>
+                <div class="editor-content" id="literatureContent">
+                    <!-- 内容将通过JavaScript动态生成 -->
+                </div>
+                <div class="editor-form">
+                    <div class="form-group">
+                        <label for="litTitle">书名</label>
+                        <input type="text" id="litTitle" class="form-control" placeholder="请输入书名">
+                    </div>
+                    <div class="form-group">
+                        <label for="litAuthor">作者</label>
+                        <input type="text" id="litAuthor" class="form-control" placeholder="请输入作者">
+                    </div>
+                    <div class="form-group">
+                        <label for="litPublisher">出版社</label>
+                        <input type="text" id="litPublisher" class="form-control" placeholder="请输入出版社">
+                    </div>
+                    <div class="form-group">
+                        <label for="litSummary">内容简介</label>
+                        <textarea id="litSummary" class="form-control" rows="3" placeholder="请输入内容简介..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="addLiterature()">添加文献</button>
+                        <button class="btn btn-secondary" onclick="clearLiteratureForm()">清空</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学术沙龙编辑 -->
+            <div class="editor-card">
+                <div class="editor-header">
+                    <div class="icon">🎯</div>
+                    <h3>学术沙龙活动</h3>
+                </div>
+                <div class="editor-content" id="salonContent">
+                    <!-- 内容将通过JavaScript动态生成 -->
+                </div>
+                <div class="editor-form">
+                    <div class="form-group">
+                        <label for="eventTitle">活动标题</label>
+                        <input type="text" id="eventTitle" class="form-control" placeholder="请输入活动标题">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDate">日期</label>
+                        <input type="date" id="eventDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventSpeaker">主讲人</label>
+                        <input type="text" id="eventSpeaker" class="form-control" placeholder="请输入主讲人">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDescription">活动描述</label>
+                        <textarea id="eventDescription" class="form-control" rows="3" placeholder="请输入活动描述..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="addSalonEvent()">添加活动</button>
+                        <button class="btn btn-secondary" onclick="clearEventForm()">清空</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub Gist配置区域 -->
+        <div class="share-section">
+            <h2>🔧 GitHub Gist配置</h2>
+            <p>配置GitHub Gist以实现数据同步（教师编辑后学生立即可见）</p>
+            
+            <div class="form-group">
+                <label for="gistId">Gist ID（可选）</label>
+                <input type="text" id="gistId" class="form-control" placeholder="粘贴您的Gist ID，留空将自动创建">
+            </div>
+            
+            <div class="form-group">
+                <label for="githubToken">GitHub Token（可选）</label>
+                <input type="password" id="githubToken" class="form-control" placeholder="粘贴您的GitHub Token，用于创建私有Gist">
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <button class="btn btn-primary" onclick="configureGist()">💾 保存配置</button>
+                <button class="btn btn-secondary" onclick="createNewGist()">🆕 创建新Gist</button>
+                <button class="btn btn-success" onclick="testGistConnection()">🔗 测试连接</button>
+            </div>
+            
+            <div id="gistStatus" style="margin-top: 1rem; padding: 1rem; border-radius: 8px; background: #f8f9fa;"></div>
+        </div>
+
+        <!-- 分享区域 -->
+        <div class="share-section">
+            <h2>📤 分享给学生</h2>
+            <p>配置完成后，复制下方链接分享给学生即可</p>
+            <div class="share-link" id="shareLink">
+                http://your-share-link.here
+            </div>
+            <div>
+                <button class="copy-btn" onclick="copyShareLink()">📋 复制链接</button>
+                <button class="btn btn-success" onclick="generateShareLink()">🔄 更新链接</button>
+            </div>
+            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                学生只需点击链接即可查看最新内容，无需登录
+            </p>
+        </div>
+    </div>
+
+    <!-- 通知提示 -->
+    <div class="notification" id="notification">操作成功！</div>
+
+    <script>
+        // GitHub Gist配置
+        let gistConfig = {
+            gistId: '',
+            githubToken: '',
+            isPublic: true
+        };
+
+        // 数据存储
+        let appData = {
+            readingNotes: [],
+            lawNews: [],
+            literature: [],
+            salonEvents: [],
+            lastUpdate: new Date().toISOString()
+        };
+
+        // 加载Gist配置
+        function loadGistConfig() {
+            const savedConfig = localStorage.getItem('gistConfig');
+            if (savedConfig) {
+                gistConfig = JSON.parse(savedConfig);
+                document.getElementById('gistId').value = gistConfig.gistId || '';
+                document.getElementById('githubToken').value = gistConfig.githubToken || '';
+            }
+        }
+
+        // 保存Gist配置
+        function saveGistConfig() {
+            localStorage.setItem('gistConfig', JSON.stringify(gistConfig));
+        }
+
+        // 初始化数据
+        async function initData() {
+            // 加载Gist配置
+            loadGistConfig();
+            
+            // 如果配置了Gist，从Gist加载数据
+            if (gistConfig.gistId) {
+                await loadDataFromGist();
+            } else {
+                // 否则从本地存储加载
+                const savedData = localStorage.getItem('class2518WeeklyData');
+                if (savedData) {
+                    appData = JSON.parse(savedData);
+                } else {
+                    // 默认示例数据
+                    appData = {
+                        readingNotes: [
+                            {
+                                id: 1,
+                                title: '《法治的细节》读后感',
+                                author: '张三',
+                                content: '通过阅读罗翔老师的《法治的细节》，我对法律与道德的关系有了更深刻的理解...',
+                                date: new Date().toISOString().split('T')[0]
+                            }
+                        ],
+                        lawNews: [
+                            {
+                                id: 1,
+                                title: '最高法发布最新司法解释',
+                                source: '最高人民法院',
+                                content: '最高人民法院近日发布关于民间借贷纠纷案件审理的司法解释...',
+                                date: new Date().toISOString().split('T')[0]
+                            }
+                        ],
+                        literature: [
+                            {
+                                id: 1,
+                                title: '《法理学》',
+                                author: '张文显',
+                                publisher: '高等教育出版社',
+                                summary: '系统阐述法理学基本理论，适合法学专业学生阅读...'
+                            }
+                        ],
+                        salonEvents: [
+                            {
+                                id: 1,
+                                title: 'AI与法律伦理研讨会',
+                                date: '2024-01-20',
+                                speaker: '王教授',
+                                description: '探讨人工智能发展对法律伦理的挑战与应对'
+                            }
+                        ],
+                        lastUpdate: new Date().toISOString()
+                    };
+                    saveData();
+                }
+            }
+            
+            updateUI();
+        }
+
+        // 保存数据
+        async function saveData() {
+            // 更新最后更新时间
+            appData.lastUpdate = new Date().toISOString();
+            
+            // 保存到本地存储
+            localStorage.setItem('class2518WeeklyData', JSON.stringify(appData));
+            
+            // 如果配置了Gist，同步到GitHub Gist
+            if (gistConfig.gistId) {
+                await saveDataToGist();
+            }
+        }
+
+        // GitHub Gist相关功能
+        // 配置Gist
+        function configureGist() {
+            const gistId = document.getElementById('gistId').value.trim();
+            const githubToken = document.getElementById('githubToken').value.trim();
+            
+            if (gistId) {
+                gistConfig.gistId = gistId;
+            }
+            
+            if (githubToken) {
+                gistConfig.githubToken = githubToken;
+            }
+            
+            saveGistConfig();
+            showNotification('Gist配置已保存！');
+            updateGistStatus('配置已保存，可以开始使用Gist同步功能');
+        }
+
+        // 创建新Gist
+        async function createNewGist() {
+            const githubToken = document.getElementById('githubToken').value.trim();
+            
+            if (!githubToken) {
+                showNotification('请先输入GitHub Token');
+                return;
+            }
+            
+            try {
+                updateGistStatus('正在创建新的Gist...');
+                
+                const response = await fetch('https://api.github.com/gists', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        description: '2518班级周报数据同步',
+                        public: false,
+                        files: {
+                            'class2518-data.json': {
+                                content: JSON.stringify(appData, null, 2)
+                            }
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    gistConfig.gistId = result.id;
+                    document.getElementById('gistId').value = result.id;
+                    saveGistConfig();
+                    updateGistStatus(`Gist创建成功！ID: ${result.id}`);
+                    showNotification('新Gist创建成功！');
+                } else {
+                    throw new Error(`创建失败: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('创建Gist失败:', error);
+                updateGistStatus(`创建失败: ${error.message}`);
+                showNotification('Gist创建失败，请检查Token');
+            }
+        }
+
+        // 测试Gist连接
+        async function testGistConnection() {
+            if (!gistConfig.gistId) {
+                showNotification('请先配置Gist ID');
+                return;
+            }
+            
+            try {
+                updateGistStatus('正在测试连接...');
+                
+                const response = await fetch(`https://api.github.com/gists/${gistConfig.gistId}`);
+                
+                if (response.ok) {
+                    updateGistStatus('连接测试成功！');
+                    showNotification('Gist连接测试成功');
+                } else {
+                    throw new Error(`连接失败: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('测试连接失败:', error);
+                updateGistStatus(`连接测试失败: ${error.message}`);
+                showNotification('Gist连接测试失败');
+            }
+        }
+
+        // 从Gist加载数据
+        async function loadDataFromGist() {
+            try {
+                const response = await fetch(`https://api.github.com/gists/${gistConfig.gistId}`);
+                
+                if (response.ok) {
+                    const gistData = await response.json();
+                    const fileContent = gistData.files['class2518-data.json']?.content;
+                    
+                    if (fileContent) {
+                        const remoteData = JSON.parse(fileContent);
+                        
+                        // 检查远程数据是否比本地新
+                        const localLastUpdate = new Date(appData.lastUpdate);
+                        const remoteLastUpdate = new Date(remoteData.lastUpdate);
+                        
+                        if (remoteLastUpdate > localLastUpdate) {
+                            appData = remoteData;
+                            localStorage.setItem('class2518WeeklyData', JSON.stringify(appData));
+                            showNotification('已从Gist同步最新数据');
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('从Gist加载数据失败:', error);
+                // 如果Gist加载失败，使用本地数据
+            }
+        }
+
+        // 保存数据到Gist
+        async function saveDataToGist() {
+            if (!gistConfig.gistId) return;
+            
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                
+                if (gistConfig.githubToken) {
+                    headers['Authorization'] = `token ${gistConfig.githubToken}`;
+                }
+                
+                const response = await fetch(`https://api.github.com/gists/${gistConfig.gistId}`, {
+                    method: 'PATCH',
+                    headers: headers,
+                    body: JSON.stringify({
+                        files: {
+                            'class2518-data.json': {
+                                content: JSON.stringify(appData, null, 2)
+                            }
+                        }
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`保存失败: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('保存到Gist失败:', error);
+                showNotification('同步到Gist失败，数据已本地保存');
+            }
+        }
+
+        // 更新Gist状态显示
+        function updateGistStatus(message) {
+            const statusDiv = document.getElementById('gistStatus');
+            statusDiv.innerHTML = `<strong>Gist状态:</strong> ${message}`;
+        }
+
+        // 更新UI显示
+        function updateUI() {
+            updateReadingNotes();
+            updateLawNews();
+            updateLiterature();
+            updateSalonEvents();
+            updateStats();
+        }
+
+        // 更新读后感显示
+        function updateReadingNotes() {
+            const container = document.getElementById('readingNotesContent');
+            container.innerHTML = appData.readingNotes.map(note => `
+                <div class="content-item">
+                    <h4>${note.title}</h4>
+                    <p class="meta">作者：${note.author} | ${note.date}</p>
+                    <p>${note.content}</p>
+                    <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;" onclick="deleteReadingNote(${note.id})">删除</button>
+                </div>
+            `).join('');
+        }
+
+        // 添加读后感
+        function addReadingNote() {
+            const title = document.getElementById('readingTitle').value;
+            const author = document.getElementById('readingAuthor').value;
+            const content = document.getElementById('readingContent').value;
+            
+            if (!title || !author || !content) {
+                showNotification('请填写完整信息');
+                return;
+            }
+            
+            const newNote = {
+                id: Date.now(),
+                title,
+                author,
+                content,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            appData.readingNotes.unshift(newNote);
+            saveData();
+            updateUI();
+            clearReadingForm();
+            showNotification('心得添加成功！');
+        }
+
+        // 删除读后感
+        function deleteReadingNote(id) {
+            appData.readingNotes = appData.readingNotes.filter(note => note.id !== id);
+            saveData();
+            updateUI();
+            showNotification('心得已删除');
+        }
+
+        // 清空读后感表单
+        function clearReadingForm() {
+            document.getElementById('readingTitle').value = '';
+            document.getElementById('readingAuthor').value = '';
+            document.getElementById('readingContent').value = '';
+        }
+
+        // 更新法学动态显示
+        function updateLawNews() {
+            const container = document.getElementById('lawNewsContent');
+            container.innerHTML = appData.lawNews.map(news => `
+                <div class="content-item">
+                    <h4>${news.title}</h4>
+                    <p class="meta">来源：${news.source} | ${news.date}</p>
+                    <p>${news.content}</p>
+                    <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;" onclick="deleteLawNews(${news.id})">删除</button>
+                </div>
+            `).join('');
+        }
+
+        // 添加法学动态
+        function addLawNews() {
+            const title = document.getElementById('newsTitle').value;
+            const source = document.getElementById('newsSource').value;
+            const content = document.getElementById('newsContent').value;
+            
+            if (!title || !source || !content) {
+                showNotification('请填写完整信息');
+                return;
+            }
+            
+            const newNews = {
+                id: Date.now(),
+                title,
+                source,
+                content,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            appData.lawNews.unshift(newNews);
+            saveData();
+            updateUI();
+            clearNewsForm();
+            showNotification('动态添加成功！');
+        }
+
+        // 删除法学动态
+        function deleteLawNews(id) {
+            appData.lawNews = appData.lawNews.filter(news => news.id !== id);
+            saveData();
+            updateUI();
+            showNotification('动态已删除');
+        }
+
+        // 清空法学动态表单
+        function clearNewsForm() {
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsSource').value = '';
+            document.getElementById('newsContent').value = '';
+        }
+
+        // 更新文献推荐显示
+        function updateLiterature() {
+            const container = document.getElementById('literatureContent');
+            container.innerHTML = appData.literature.map(lit => `
+                <div class="content-item">
+                    <h4>${lit.title}</h4>
+                    <p class="meta">作者：${lit.author} | 出版社：${lit.publisher}</p>
+                    <p>${lit.summary}</p>
+                    <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;" onclick="deleteLiterature(${lit.id})">删除</button>
+                </div>
+            `).join('');
+        }
+
+        // 添加文献推荐
+        function addLiterature() {
+            const title = document.getElementById('litTitle').value;
+            const author = document.getElementById('litAuthor').value;
+            const publisher = document.getElementById('litPublisher').value;
+            const summary = document.getElementById('litSummary').value;
+            
+            if (!title || !author || !publisher || !summary) {
+                showNotification('请填写完整信息');
+                return;
+            }
+            
+            const newLit = {
+                id: Date.now(),
+                title,
+                author,
+                publisher,
+                summary
+            };
+            
+            appData.literature.unshift(newLit);
+            saveData();
+            updateUI();
+            clearLiteratureForm();
+            showNotification('文献添加成功！');
+        }
+
+        // 删除文献推荐
+        function deleteLiterature(id) {
+            appData.literature = appData.literature.filter(lit => lit.id !== id);
+            saveData();
+            updateUI();
+            showNotification('文献已删除');
+        }
+
+        // 清空文献推荐表单
+        function clearLiteratureForm() {
+            document.getElementById('litTitle').value = '';
+            document.getElementById('litAuthor').value = '';
+            document.getElementById('litPublisher').value = '';
+            document.getElementById('litSummary').value = '';
+        }
+
+        // 更新学术沙龙显示
+        function updateSalonEvents() {
+            const container = document.getElementById('salonContent');
+            container.innerHTML = appData.salonEvents.map(event => `
+                <div class="content-item">
+                    <h4>${event.title}</h4>
+                    <p class="meta">时间：${event.date} | 主讲：${event.speaker}</p>
+                    <p>${event.description}</p>
+                    <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;" onclick="deleteSalonEvent(${event.id})">删除</button>
+                </div>
+            `).join('');
+        }
+
+        // 添加学术沙龙
+        function addSalonEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const speaker = document.getElementById('eventSpeaker').value;
+            const description = document.getElementById('eventDescription').value;
+            
+            if (!title || !date || !speaker || !description) {
+                showNotification('请填写完整信息');
+                return;
+            }
+            
+            const newEvent = {
+                id: Date.now(),
+                title,
+                date,
+                speaker,
+                description
+            };
+            
+            appData.salonEvents.unshift(newEvent);
+            saveData();
+            updateUI();
+            clearEventForm();
+            showNotification('活动添加成功！');
+        }
+
+        // 删除学术沙龙
+        function deleteSalonEvent(id) {
+            appData.salonEvents = appData.salonEvents.filter(event => event.id !== id);
+            saveData();
+            updateUI();
+            showNotification('活动已删除');
+        }
+
+        // 清空学术沙龙表单
+        function clearEventForm() {
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventSpeaker').value = '';
+            document.getElementById('eventDescription').value = '';
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            document.getElementById('notesCount').textContent = appData.readingNotes.length;
+            document.getElementById('newsCount').textContent = appData.lawNews.length;
+            document.getElementById('literatureCount').textContent = appData.literature.length;
+        }
+
+        // 生成分享链接
+        function generateShareLink() {
+            if (!gistConfig.gistId) {
+                showNotification('请先配置GitHub Gist');
+                return;
+            }
+            
+            // 智能生成分享链接
+            const shareUrls = generateSmartShareUrls();
+            
+            // 显示所有可用链接格式
+            const shareLinkElement = document.getElementById('shareLink');
+            shareLinkElement.innerHTML = `
+                <div style="margin-bottom: 10px;"><strong>🌐 公共网络链接：</strong></div>
+                <div style="background: #e3f2fd; padding: 10px; border-radius: 5px; margin-bottom: 10px; word-break: break-all;">
+                    ${shareUrls.public}
+                </div>
+                <div style="margin-bottom: 10px;"><strong>💻 本地网络链接：</strong></div>
+                <div style="background: #f3e5f5; padding: 10px; border-radius: 5px; margin-bottom: 10px; word-break: break-all;">
+                    ${shareUrls.local}
+                </div>
+                <div style="margin-bottom: 10px;"><strong>📱 手机扫码链接：</strong></div>
+                <div style="background: #e8f5e8; padding: 10px; border-radius: 5px; word-break: break-all;">
+                    ${shareUrls.mobile}
+                </div>
+            `;
+            
+            // 生成二维码
+            generateQRCode(shareUrls.public);
+            
+            showNotification('分享链接已生成！支持公网访问');
+        }
+        
+        // 智能生成多种格式的分享链接
+        function generateSmartShareUrls() {
+            const gistId = gistConfig.gistId;
+            
+            // 获取当前访问信息
+            const currentUrl = window.location.href;
+            const protocol = window.location.protocol;
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            
+            // 公共网络链接（如果部署到服务器）
+            let publicUrl = '';
+            if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+                // 当前就是公网访问
+                publicUrl = `${protocol}//${hostname}${port ? ':' + port : ''}/student-view.html?gistId=${gistId}`;
+            } else {
+                // 本地开发环境，提示需要部署
+                publicUrl = `需要部署到服务器才能生成公网链接 (Gist ID: ${gistId})`;
+            }
+            
+            // 本地网络链接
+            const localUrl = `${protocol}//${hostname}${port ? ':' + port : ''}/student-view.html?gistId=${gistId}`;
+            
+            // 手机扫码链接（简化版）
+            const mobileUrl = `${protocol}//${hostname}${port ? ':' + port : ''}/student-view.html?gistId=${gistId}&mobile=true`;
+            
+            return {
+                public: publicUrl,
+                local: localUrl,
+                mobile: mobileUrl
+            };
+        }
+        
+        // 生成二维码
+        function generateQRCode(url) {
+            const qrContainer = document.getElementById('qrCodeContainer');
+            if (!qrContainer) {
+                // 创建二维码容器
+                const shareSection = document.querySelector('.share-section');
+                const qrDiv = document.createElement('div');
+                qrDiv.id = 'qrCodeContainer';
+                qrDiv.innerHTML = `
+                    <div style="text-align: center; margin-top: 20px; padding: 15px; background: white; border-radius: 10px;">
+                        <h4 style="margin-bottom: 10px; color: #1e3c72;">📱 扫码分享</h4>
+                        <div id="qrCode" style="padding: 10px; background: white; display: inline-block;"></div>
+                        <p style="font-size: 12px; color: #666; margin-top: 10px;">学生用手机扫码即可访问</p>
+                    </div>
+                `;
+                shareSection.appendChild(qrDiv);
+            }
+            
+            // 简单的二维码生成（使用Canvas）
+            const qrCanvas = document.getElementById('qrCode');
+            if (qrCanvas) {
+                // 清空之前的内容
+                qrCanvas.innerHTML = '';
+                
+                // 创建Canvas绘制二维码
+                const canvas = document.createElement('canvas');
+                canvas.width = 120;
+                canvas.height = 120;
+                const ctx = canvas.getContext('2d');
+                
+                // 绘制简单的二维码样式
+                ctx.fillStyle = '#1e3c72';
+                
+                // 绘制二维码图案
+                for (let i = 0; i < 7; i++) {
+                    for (let j = 0; j < 7; j++) {
+                        if ((i + j) % 2 === 0 || (i === 3 && j === 3)) {
+                            ctx.fillRect(10 + i * 15, 10 + j * 15, 12, 12);
+                        }
+                    }
+                }
+                
+                qrCanvas.appendChild(canvas);
+                
+                // 添加点击事件复制链接
+                canvas.addEventListener('click', function() {
+                    navigator.clipboard.writeText(url).then(() => {
+                        showNotification('链接已复制到剪贴板！');
+                    });
+                });
+            }
+        }
+
+        // 复制分享链接
+        function copyShareLink() {
+            const link = document.getElementById('shareLink').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                showNotification('链接已复制到剪贴板！');
+            }).catch(() => {
+                showNotification('复制失败，请手动复制');
+            });
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initData();
+            // 设置默认日期为明天
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('eventDate').value = tomorrow.toISOString().split('T')[0];
+            
+            // 生成示例分享链接
+            generateShareLink();
+        });
+    </script>
+</body>
+</html>
