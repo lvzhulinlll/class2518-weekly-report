@@ -942,6 +942,8 @@
                 await loadDataFromGist();
             } else {
                 updateSyncStatus('❌ 未配置Gist，无法刷新');
+                // 显示引导信息
+                showNotification('请使用包含Gist ID的完整分享链接');
             }
         }
         
@@ -995,6 +997,26 @@
             const statusElement = document.getElementById('syncStatus');
             if (statusElement) {
                 statusElement.textContent = message;
+                
+                // 如果没有Gist配置，显示引导信息
+                if (!gistConfig.gistId && message.includes('未配置Gist')) {
+                    const syncSection = document.querySelector('.last-update');
+                    if (syncSection && !document.getElementById('gistHelp')) {
+                        const helpDiv = document.createElement('div');
+                        helpDiv.id = 'gistHelp';
+                        helpDiv.innerHTML = `
+                            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 1rem; margin-top: 1rem; text-align: left;">
+                                <h4 style="color: #856404; margin: 0 0 0.5rem 0;">💡 如何获取访问链接？</h4>
+                                <p style="margin: 0.5rem 0; color: #856404;">请联系教师获取包含Gist ID的完整分享链接，格式如下：</p>
+                                <div style="background: #f8f9fa; padding: 0.8rem; border-radius: 4px; margin: 0.5rem 0; font-family: monospace; font-size: 0.9rem; color: #333;">
+                                    https://lvzhulinlll.github.io/class2518-weekly-report/student-view.html?gistId=xxxxxxxxxxxx
+                                </div>
+                                <p style="margin: 0.5rem 0; color: #856404;">或者让教师通过教师端生成分享链接后发送给您。</p>
+                            </div>
+                        `;
+                        syncSection.appendChild(helpDiv);
+                    }
+                }
             }
         }
 
