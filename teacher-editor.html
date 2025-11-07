@@ -502,57 +502,57 @@
             // 加载Gist配置
             loadGistConfig();
             
-            // 如果配置了Gist，从Gist加载数据
+            // 首先尝试从本地存储加载数据，确保有基础数据
+            const savedData = localStorage.getItem('class2518WeeklyData');
+            if (savedData) {
+                appData = JSON.parse(savedData);
+            } else {
+                // 默认示例数据
+                appData = {
+                    readingNotes: [
+                        {
+                            id: 1,
+                            title: '《法治的细节》读后感',
+                            author: '张三',
+                            content: '通过阅读罗翔老师的《法治的细节》，我对法律与道德的关系有了更深刻的理解...',
+                            date: new Date().toISOString().split('T')[0]
+                        }
+                    ],
+                    lawNews: [
+                        {
+                            id: 1,
+                            title: '最高法发布最新司法解释',
+                            source: '最高人民法院',
+                            content: '最高人民法院近日发布关于民间借贷纠纷案件审理的司法解释...',
+                            date: new Date().toISOString().split('T')[0]
+                        }
+                    ],
+                    literature: [
+                        {
+                            id: 1,
+                            title: '《法理学》',
+                            author: '张文显',
+                            publisher: '高等教育出版社',
+                            summary: '系统阐述法理学基本理论，适合法学专业学生阅读...'
+                        }
+                    ],
+                    salonEvents: [
+                        {
+                            id: 1,
+                            title: 'AI与法律伦理研讨会',
+                            date: '2024-01-20',
+                            speaker: '王教授',
+                            description: '探讨人工智能发展对法律伦理的挑战与应对'
+                        }
+                    ],
+                    lastUpdate: new Date().toISOString()
+                };
+                saveData();
+            }
+            
+            // 如果配置了Gist，从Gist加载最新数据（但保留本地数据作为备份）
             if (gistConfig.gistId) {
                 await loadDataFromGist();
-            } else {
-                // 否则从本地存储加载
-                const savedData = localStorage.getItem('class2518WeeklyData');
-                if (savedData) {
-                    appData = JSON.parse(savedData);
-                } else {
-                    // 默认示例数据
-                    appData = {
-                        readingNotes: [
-                            {
-                                id: 1,
-                                title: '《法治的细节》读后感',
-                                author: '张三',
-                                content: '通过阅读罗翔老师的《法治的细节》，我对法律与道德的关系有了更深刻的理解...',
-                                date: new Date().toISOString().split('T')[0]
-                            }
-                        ],
-                        lawNews: [
-                            {
-                                id: 1,
-                                title: '最高法发布最新司法解释',
-                                source: '最高人民法院',
-                                content: '最高人民法院近日发布关于民间借贷纠纷案件审理的司法解释...',
-                                date: new Date().toISOString().split('T')[0]
-                            }
-                        ],
-                        literature: [
-                            {
-                                id: 1,
-                                title: '《法理学》',
-                                author: '张文显',
-                                publisher: '高等教育出版社',
-                                summary: '系统阐述法理学基本理论，适合法学专业学生阅读...'
-                            }
-                        ],
-                        salonEvents: [
-                            {
-                                id: 1,
-                                title: 'AI与法律伦理研讨会',
-                                date: '2024-01-20',
-                                speaker: '王教授',
-                                description: '探讨人工智能发展对法律伦理的挑战与应对'
-                            }
-                        ],
-                        lastUpdate: new Date().toISOString()
-                    };
-                    saveData();
-                }
             }
             
             updateUI();
